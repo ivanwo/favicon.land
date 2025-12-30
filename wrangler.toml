@@ -1,0 +1,8 @@
+name = "faviconland"
+compatibility_date = "2025-02-14"
+pages_build_output_dir = "./dist"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "faviconland"
+database_id = "74e9f6c4-09da-4444-acf9-4f22158cac9c"

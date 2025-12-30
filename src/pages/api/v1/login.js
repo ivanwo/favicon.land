@@ -1,6 +1,6 @@
 // login.js
-import { verifyPassword } from "../../lib/utils";
-import { generateSessionToken, createSession, setSessionCookie } from "../../lib/auth";
+import { verifyPassword } from "../../../lib/utils";
+import { generateSessionToken, createSession, setSessionCookie } from "../../../lib/auth";
 
 export async function POST(context) {
     try {

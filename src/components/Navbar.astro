@@ -1,0 +1,27 @@
+---
+const user = Astro.locals.user;
+---
+
+<nav>
+    <a href="/">Home</a>
+    <!-- search -->
+    <a href="/create">new icon</a>
+    <input type="text" placeholder="Search" />
+    {
+        user ? (
+            <>
+                <a href="/my-icons">My Icons</a>
+                <form action="/api/v1/logout" method="post">
+                    <button type="submit">Log out</button>
+                </form>
+            </>
+        ) : (
+            <>
+                <a href="/login">Login</a>
+                <a href="/logup">Logup</a>
+            </>
+        )
+    }
+</nav>
+
+<style></style>

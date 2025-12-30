@@ -1,6 +1,6 @@
 // logup.js
-import { hashPassword } from "../../lib/utils";
-import { generateSessionToken, createSession, setSessionCookie } from "../../lib/auth";
+import { hashPassword } from "../../../lib/utils";
+import { generateSessionToken, createSession, setSessionCookie } from "../../../lib/auth";
 import { encodeBase32UpperCaseNoPadding } from "@oslojs/encoding";
 
 export async function POST(context) {

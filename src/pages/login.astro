@@ -6,7 +6,7 @@ if (user) {
     if (user.role === "admin") {
         return Astro.redirect("/admin");
     }
-    return Astro.redirect("/home");
+    return Astro.redirect("/");
 }
 ---
 
@@ -93,7 +93,7 @@ if (user) {
 
                     if (response.ok) {
                         const targetProto =
-                            result.user.role === "admin" ? "/admin" : "/home";
+                            result.user.role === "admin" ? "/admin" : "/";
                         window.location.href = targetProto;
                     } else {
                         errorDiv.textContent = result.error || "Login failed";

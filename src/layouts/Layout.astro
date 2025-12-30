@@ -1,5 +1,5 @@
 ---
-// import Navbar from "../components/Navbar.astro"
+import Navbar from "../components/Navbar.astro";
 
 export interface Props {
     title?: string;
@@ -20,16 +20,8 @@ const year = new Date().getFullYear();
         <title>{pageTitle}</title>
     </head>
     <body>
-        <!-- <Navbar /> -->
-        <nav>
-            <a href="/">Home</a>
-            <!-- search -->
-            <a href="/create">new icon</a>
-            <input type="text" placeholder="Search" />
-            <a href="/login">Login</a>
-            <a href="/logup">Logup</a>
-            <a href="/api/v1/logout">Log out</a>
-        </nav>
+        <Navbar />
+
         <main>
             <slot />
         </main>

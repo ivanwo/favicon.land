@@ -54,7 +54,7 @@ const year = new Date().getFullYear();
     }
 
     main {
-        min-height: calc(100vh - 60px); /* Full height minus navbar */
+        /* min-height: calc(100vh - 60px); Full height minus navbar */
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -102,5 +102,22 @@ const year = new Date().getFullYear();
     body :global(nav a[href="/api/v1/log/out"]:hover) {
         /* background-color: rgba(248, 113, 113, 0.1); */
         color: #f87171;
+    }
+    /* footer always at the far bottom */
+    body :global(footer) {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        z-index: 1000;
+        /* background-color: rgba(8, 8, 8, 0.95); */
+        backdrop-filter: blur(10px);
+        border-top: 1px solid #333;
+        padding: 1rem 2rem;
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+        height: 60px;
+        box-sizing: border-box;
     }
 </style>

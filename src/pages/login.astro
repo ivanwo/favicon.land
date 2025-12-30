@@ -18,10 +18,6 @@ if (user) {
                     <h1>Welcome back</h1>
                     <p>Enter your details to access your account</p>
                 </div>
-
-                <div id="error" class="error-message" style="display: none;">
-                </div>
-
                 <form id="loginForm" class="login-form">
                     <div class="form-group">
                         <label for="username">Username</label>
@@ -54,12 +50,20 @@ if (user) {
                             <span class="checkmark"></span>
                             Remember me
                         </label>
-                        <a href="#" class="forgot-password">Forgot password?</a>
+                        <a href="/forgot-password" class="forgot-password"
+                            >Forgot password?</a
+                        >
                     </div>
 
                     <button type="submit" class="btn btn-primary full-width"
                         >Sign in</button
                     >
+                    <div
+                        id="error"
+                        class="error-message"
+                        style="display: none;"
+                    >
+                    </div>
                 </form>
                 <p class="signup-link">
                     Don't have an account? <a href="/logup">Sign up</a>
@@ -110,198 +114,9 @@ if (user) {
 </Layout>
 
 <style>
-    main {
-        min-height: 100vh;
-        padding-top: 6rem;
-        padding-bottom: 4rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .login-container {
-        width: 100%;
-        max-width: 440px;
-        padding: 1rem;
-    }
-
-    .login-card {
-        padding: 2.5rem;
-    }
-
-    .header {
-        text-align: center;
-        margin-bottom: 2rem;
-    }
-
-    .header h1 {
-        font-size: 1.75rem;
-        margin-bottom: 0.5rem;
-        color: var(--text-heading);
-    }
-
-    .header p {
-        color: var(--text-muted);
-        font-size: 0.95rem;
-    }
-
-    .login-form {
-        display: flex;
-        flex-direction: column;
-        gap: 1.25rem;
-    }
-
-    .form-group {
-        display: flex;
-        flex-direction: column;
-        gap: 0.5rem;
-        text-align: left;
-    }
-
-    label {
-        font-size: 0.9rem;
-        font-weight: 500;
-        color: var(--text-main);
-    }
-
-    input[type="text"],
-    input[type="email"],
-    input[type="password"] {
-        padding: 0.75rem 1rem;
-        border-radius: 0.5rem;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid var(--glass-border);
-        color: var(--text-main);
-        font-size: 1rem;
-        transition: all 0.2s;
-    }
-
-    input:focus {
-        outline: none;
-        border-color: var(--primary);
-        background: rgba(255, 255, 255, 0.05);
-    }
-
-    .form-actions {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 0.9rem;
-    }
-
-    .forgot-password {
-        color: var(--primary);
-    }
-
-    .full-width {
-        width: 100%;
-    }
-
-    .divider {
-        margin: 2rem 0;
-        position: relative;
-        text-align: center;
-    }
-
-    .divider::before {
-        content: "";
-        position: absolute;
-        left: 0;
-        top: 50%;
-        width: 100%;
-        height: 1px;
-        background: var(--glass-border);
-    }
-
-    .divider span {
-        position: relative;
-        padding: 0 0.75rem;
-        color: var(--text-muted);
-        font-size: 0.85rem;
-        background-color: #0c1221; /* Dark background approximation */
-    }
-
-    .social-login {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-        margin-bottom: 2rem;
-    }
-
-    .signup-link {
-        text-align: center;
-        font-size: 0.9rem;
-        color: var(--text-muted);
-    }
-
-    .signup-link a {
-        color: var(--primary);
-        font-weight: 600;
-    }
-
-    /* Checkbox styling */
-    .checkbox-container {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        user-select: none;
-        color: var(--text-muted);
-        position: relative;
-        padding-left: 24px;
-    }
-
-    .checkbox-container input {
-        position: absolute;
-        opacity: 0;
-        cursor: pointer;
-        height: 0;
-        width: 0;
-    }
-
-    .checkmark {
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 18px;
-        width: 18px;
-        background-color: rgba(255, 255, 255, 0.05);
-        border: 1px solid var(--glass-border);
-        border-radius: 4px;
-        transition: all 0.2s;
-    }
-
-    .checkbox-container:hover input ~ .checkmark {
-        background-color: rgba(255, 255, 255, 0.1);
-    }
-
-    .checkbox-container input:checked ~ .checkmark {
-        background-color: var(--primary);
-        border-color: var(--primary);
-    }
-
-    .checkmark:after {
-        content: "";
-        position: absolute;
-        display: none;
-    }
-
-    .checkbox-container input:checked ~ .checkmark:after {
-        display: block;
-    }
-
-    .checkbox-container .checkmark:after {
-        left: 6px;
-        top: 2px;
-        width: 5px;
-        height: 10px;
-        border: solid white;
-        border-width: 0 2px 2px 0;
-        transform: rotate(45deg);
-    }
-
     .error-message {
-        background: rgba(220, 38, 38, 0.1);
-        border: 1px solid rgba(220, 38, 38, 0.2);
+        /* background: rgba(220, 38, 38, 0.1); */
+        /* border: 1px solid rgba(220, 38, 38, 0.2); */
         color: #ef4444;
         padding: 0.75rem;
         border-radius: 0.5rem;

@@ -38,27 +38,33 @@ const year = new Date().getFullYear();
 </html>
 
 <style>
-    html,
-    body {
+    html {
         margin: 0;
-        min-width: 400px;
-        width: 100%;
+        padding: 0;
         height: 100%;
-        /* background-color: #080808; */
-        /* color: #d2cec8; */
-        font-family: sans-serif;
+        overflow-x: hidden;
     }
 
     body {
+        margin: 0;
+        padding: 0;
+        min-height: 100%;
+        display: flex;
+        flex-direction: column;
+        font-family: sans-serif;
         padding-top: 60px; /* Space for fixed navbar */
+        box-sizing: border-box;
+        overflow-x: hidden;
     }
 
     main {
-        /* min-height: calc(100vh - 60px); Full height minus navbar */
+        flex: 1;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        padding: 2rem 1rem;
+        box-sizing: border-box;
     }
 
     /* Make navbar fixed at top */
@@ -68,56 +74,80 @@ const year = new Date().getFullYear();
         left: 0;
         right: 0;
         z-index: 1000;
-        /* background-color: rgba(8, 8, 8, 0.95); */
         backdrop-filter: blur(10px);
         border-bottom: 1px solid #333;
-        padding: 1rem 2rem;
+        padding: 1rem 1.5rem;
         display: flex;
-        gap: 2rem;
         align-items: center;
         height: 60px;
         box-sizing: border-box;
+        background: rgba(255, 255, 255, 0.95);
+    }
+
+    @media (prefers-color-scheme: dark) {
+        body :global(nav) {
+            /* background: rgba(20, 20, 20, 0.95); */
+        }
     }
 
     /* Style navbar links */
     body :global(nav a) {
-        /* color: #d2cec8; */
         text-decoration: none;
-        padding: 0.5rem 1rem;
+        padding: 0.5rem 0.75rem;
         border-radius: 4px;
         transition: all 0.2s ease;
         font-weight: 500;
     }
 
     body :global(nav a:hover) {
-        /* background-color: rgba(29, 161, 242, 0.1); */
         color: slateblue;
     }
 
-    /* Special styling for logout link */
-    body :global(nav a[href="/api/v1/log/out"]) {
-        color: #f87171;
-    }
-
-    body :global(nav a[href="/api/v1/log/out"]:hover) {
-        /* background-color: rgba(248, 113, 113, 0.1); */
-        color: #f87171;
-    }
-    /* footer always at the far bottom */
-    body :global(footer) {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        right: 0;
-        z-index: 1000;
-        /* background-color: rgba(8, 8, 8, 0.95); */
+    /* Footer at bottom - uses flexbox, no scrolling behind navbar */
+    footer {
+        margin-top: auto;
         backdrop-filter: blur(10px);
         border-top: 1px solid #333;
-        padding: 1rem 2rem;
+        padding: 1rem 1.5rem;
         display: flex;
-        gap: 2rem;
+        flex-wrap: wrap;
+        gap: 1rem;
         align-items: center;
-        height: 60px;
+        justify-content: center;
         box-sizing: border-box;
+        text-align: center;
+    }
+
+    footer p {
+        margin: 0;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem 1rem;
+        align-items: center;
+        justify-content: center;
+    }
+
+    footer a {
+        text-decoration: none;
+        color: inherit;
+        opacity: 0.7;
+        transition: opacity 0.2s;
+    }
+
+    footer a:hover {
+        opacity: 1;
+        color: slateblue;
+    }
+
+    /* Mobile adjustments */
+    @media (max-width: 768px) {
+        body :global(nav) {
+            padding: 1rem;
+        }
+
+        footer {
+            padding: 1rem;
+            font-size: 0.85rem;
+        }
     }
 </style>

@@ -1,16 +1,236 @@
 ---
-// src/pages/index.astro
 import Layout from "../layouts/Layout.astro";
 
-// const user = Astro.locals.user;
-// if (user) {
-//   return Astro.redirect("/feed");
-// }
+const searchQuery = Astro.url.searchParams.get("search") || "";
+const db = Astro.locals.runtime?.env?.DB;
+
+let icons = [];
+let error = null;
+
+if (searchQuery && db) {
+    try {
+        // Search for icons by name (case-insensitive LIKE search)
+        const result = await db
+            .prepare(
+                `
+            SELECT icon.*, user.username, user.display_name
+            FROM icon
+            LEFT JOIN user ON icon.user_id = user.id
+            WHERE icon.name LIKE ?
+            ORDER BY icon.created_at DESC
+            LIMIT 50
+        `,
+            )
+            .bind(`%${searchQuery}%`)
+            .all();
+
+        icons = result.results || [];
+    } catch (e) {
+        console.error("Search error:", e);
+        error = "Failed to search icons";
+    }
+}
 ---
 
-<Layout title="favicon.land - search">
-    <h1>search results</h1>
-    <p>search for {Astro.params.query}</p>
+<Layout
+    title={searchQuery
+        ? `Search: ${searchQuery} - favicon.land`
+        : "Search - favicon.land"}
+>
+    <div class="search-container">
+        <h1>Search Results</h1>
+
+        {
+            searchQuery ? (
+                <p class="search-query">
+                    Showing results for: <strong>{searchQuery}</strong>
+                </p>
+            ) : (
+                <p class="search-query">Enter a search term to find icons</p>
+            )
+        }
+
+        {error && <p class="error">{error}</p>}
+
+        {
+            searchQuery && icons.length === 0 && !error && (
+                <div class="no-results">
+                    <p>No icons found matching "{searchQuery}"</p>
+                    <p class="hint">
+                        Try a different search term or{" "}
+                        <a href="/create">create a new icon</a>
+                    </p>
+                </div>
+            )
+        }
+
+        {
+            icons.length > 0 && (
+                <div class="results-grid">
+                    {icons.map((icon) => (
+                        <a href={`/icon/${icon.id}`} class="icon-card">
+                            <div class="icon-preview">
+                                <img
+                                    src={icon.url}
+                                    alt={icon.name}
+                                    loading="lazy"
+                                />
+                            </div>
+                            <div class="icon-info">
+                                <span class="icon-name">{icon.name}</span>
+                                <span class="icon-author">
+                                    by{" "}
+                                    {icon.display_name ||
+                                        icon.username ||
+                                        "Anonymous"}
+                                </span>
+                            </div>
+                        </a>
+                    ))}
+                </div>
+            )
+        }
+    </div>
 </Layout>
 
-<style></style>
+<style>
+    .search-container {
+        width: 100%;
+        max-width: 1200px;
+        padding: 2rem;
+        box-sizing: border-box;
+    }
+
+    h1 {
+        margin: 0 0 0.5rem 0;
+        font-size: 2rem;
+    }
+
+    .search-query {
+        color: #666;
+        margin-bottom: 2rem;
+    }
+
+    .search-query strong {
+        color: slateblue;
+    }
+
+    .error {
+        color: #f87171;
+        padding: 1rem;
+        background: rgba(248, 113, 113, 0.1);
+        border-radius: 8px;
+    }
+
+    .no-results {
+        text-align: center;
+        padding: 3rem;
+        background: rgba(0, 0, 0, 0.05);
+        border-radius: 12px;
+    }
+
+    .no-results p {
+        margin: 0.5rem 0;
+    }
+
+    .hint {
+        color: #666;
+        font-size: 0.9rem;
+    }
+
+    .hint a {
+        color: slateblue;
+        text-decoration: none;
+    }
+
+    .hint a:hover {
+        text-decoration: underline;
+    }
+
+    .results-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .icon-card {
+        display: flex;
+        flex-direction: column;
+        text-decoration: none;
+        color: inherit;
+        background: rgba(0, 0, 0, 0.03);
+        border-radius: 12px;
+        overflow: hidden;
+        transition: all 0.2s ease;
+        border: 1px solid transparent;
+    }
+
+    .icon-card:hover {
+        transform: translateY(-4px);
+        border-color: slateblue;
+        box-shadow: 0 8px 24px rgba(106, 90, 205, 0.15);
+    }
+
+    .icon-preview {
+        aspect-ratio: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1rem;
+        background: repeating-conic-gradient(#eee 0% 25%, transparent 0% 50%)
+            50% / 16px 16px;
+    }
+
+    .icon-preview img {
+        max-width: 100%;
+        max-height: 100%;
+        image-rendering: pixelated;
+        image-rendering: crisp-edges;
+    }
+
+    .icon-info {
+        padding: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .icon-name {
+        font-weight: 600;
+        font-size: 0.9rem;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .icon-author {
+        font-size: 0.75rem;
+        color: #888;
+    }
+
+    @media (prefers-color-scheme: dark) {
+        .icon-card {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .icon-preview {
+            background: repeating-conic-gradient(#333 0% 25%, #222 0% 50%) 50% /
+                16px 16px;
+        }
+
+        .no-results {
+            background: rgba(255, 255, 255, 0.05);
+        }
+    }
+
+    @media (max-width: 768px) {
+        .search-container {
+            padding: 1rem;
+        }
+
+        .results-grid {
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 1rem;
+        }
+    }
+</style>
